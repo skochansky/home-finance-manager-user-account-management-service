@@ -8,7 +8,7 @@ services:
     build:
       context: ../
       dockerfile: .docker/Dockerfile
-    command: "poetry run python src/manage.py runserver 0.0.0.0:8000"
+    command: "poetry run python src/manage.py runserver 0.0.0.0:8100"
     volumes:
       - .:/usr/src/app
     depends_on:
