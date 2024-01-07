@@ -11,3 +11,5 @@ COPY . /app
 RUN pip3 install poetry
 
 RUN poetry install
+
+ENTRYPOINT [".docker/entrypoint.sh"]
