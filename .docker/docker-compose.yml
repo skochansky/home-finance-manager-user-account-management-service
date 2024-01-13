@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   hfm-user-account-management-service:
@@ -11,18 +11,27 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - db-hfm-user-account-management-service
-    links:
-      - db-hfm-user-account-management-service:db-hfm-user-account-management-service
+      db-hfm-user-account-management-service:
+        condition: service_healthy
   db-hfm-user-account-management-service:
     networks:
       - hfm-user-account-management-service
     container_name: db_hfm_user_account_management_service
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
     image: postgres:16
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+        test: ["CMD", "pg_isready", "-U", "${DB_USER}"]
+        interval: 5s
+        timeout: 30s
+        retries: 6
+    restart: always
 
 networks:
   hfm-user-account-management-service:
