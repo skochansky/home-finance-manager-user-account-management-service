@@ -34,4 +34,4 @@ jobs:
         poetry install
     - name: Run Tests
       run: |
-        poetry run python src/manage.py --settings=src.core.settings.settings_ci test
+        poetry run python src/manage.py test --settings=core.settings.settings_ci
